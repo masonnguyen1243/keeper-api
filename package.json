@@ -1,0 +1,13 @@
+{
+  "name": "keeper-app-api",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "mason nguyen",
+  "main": "src/server.js",
+  "author": "masonnguyen",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
