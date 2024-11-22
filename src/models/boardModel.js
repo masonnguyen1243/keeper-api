@@ -24,6 +24,9 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false),
 });
 
+//Chỉ ra những Fields không muốn cập nhật trong hàm update()
+const INVALID_UPDATE_FIELDS = ["_id", "createdAt"];
+
 const validateBeforeCreate = async (data) => {
   return await BOARD_COLLECTION_SCHEMA.validateAsync(data, {
     abortEarly: false,
@@ -109,7 +112,30 @@ const pushColumnOrderIds = async (column) => {
         { returnDocument: "after" }
       );
 
-    return result.value;
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const update = async (boardId, updateData) => {
+  try {
+    //Lọc những cái field mà cta không cho phép cập nhật linh tinh
+    Object.keys(updateData).forEach((fieldName) => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName)) {
+        delete updateData[fieldName];
+      }
+    });
+
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        { _id: new ObjectId(boardId) },
+        { $set: updateData },
+        { returnDocument: "after" } //Trả về KQ mới sau khi cập nhật
+      );
+
+    return result;
   } catch (error) {
     throw new Error(error);
   }
@@ -122,8 +148,5 @@ export const boardModel = {
   findOneById,
   getDetails,
   pushColumnOrderIds,
+  update,
 };
-
-//column id: 6740a5e544f13ecd5196c6b7
-//board id: 6740746e2ff60ee2a2824d3c
-//card id: 6740a6b044f13ecd5196c6b9
