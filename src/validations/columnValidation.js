@@ -26,21 +26,15 @@ const createNew = async (req, res, next) => {
 };
 
 const update = async (req, res, next) => {
-  //Không dùng require trong trường hợp update
   const correctCondition = Joi.object({
-    // boardId: Joi.string()
-    //   .pattern(OBJECT_ID_RULE)
-    //   .message(OBJECT_ID_RULE_MESSAGE),
     title: Joi.string().min(3).max(50).trim().strict(),
-    cardOrderIds: Joi.array().items(
+    cardOrderIds: Joi.array().item(
       Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
     ),
   });
 
   try {
-    //abortEarly: false => trường hợp có nhiều lỗi validation thì trả về tất cả lỗi
-    //Đối với trường hợp update, cho phép Unknown để không cần đẩy 1 số field lên
-    await correctCondition.validateAsync(req.body, {
+    await correctCondition.validateAsync(req.params, {
       abortEarly: false,
       allowUnknown: true,
     });
@@ -56,7 +50,30 @@ const update = async (req, res, next) => {
   }
 };
 
+const deleteItem = async (req, res, next) => {
+  const correctCondition = Joi.object({
+    id: Joi.string()
+      .required()
+      .pattern(OBJECT_ID_RULE)
+      .message(OBJECT_ID_RULE_MESSAGE),
+  });
+
+  try {
+    await correctCondition.validateAsync(req.params);
+
+    next();
+  } catch (error) {
+    const errorMessage = new Error(error).message;
+    const customError = new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      errorMessage
+    );
+    next(customError);
+  }
+};
+
 export const columnValidation = {
   createNew,
   update,
+  deleteItem,
 };
