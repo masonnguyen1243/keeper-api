@@ -17,4 +17,10 @@ Router.route("/:id")
   .get(boardController.getDetails)
   .put(boardValidation.update, boardController.update);
 
+//API hỗ trợ cho việc di chuyển Card giữa những Column khác nhau
+Router.route("/supports/moving_card").put(
+  boardValidation.moveCardToDifferentColumns,
+  boardController.moveCardToDifferentColumns
+);
+
 export const boardRoute = Router;
