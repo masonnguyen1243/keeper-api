@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { boardService } from "~/services/boardService";
 
+//Điều hướng các loại dữ liệu phía BE
 const createNew = async (req, res, next) => {
   try {
     // console.log(req.body);

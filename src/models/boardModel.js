@@ -7,6 +7,7 @@ import { columnModel } from "~/models/columnModel";
 import { cardModel } from "~/models/cardModel";
 
 //Define collection (name & schema)
+//Định nghĩa ra những Collection/Schema cho dự án
 const BOARD_COLLECTION_NAME = "boards";
 const BOARD_COLLECTION_SCHEMA = Joi.object({
   title: Joi.string().required().min(3).max(50).trim().strict(),
@@ -62,11 +63,6 @@ const findOneById = async (boardId) => {
 //Query tổng hợp để lấy toàn bộ Columns và Cards thuộc về board
 const getDetails = async (id) => {
   try {
-    // const result = await GET_DB()
-    //   .collection(BOARD_COLLECTION_NAME)
-    //   .findOne({
-    //     _id: new ObjectId(id),
-    //   });
     const result = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
       .aggregate([
@@ -118,6 +114,23 @@ const pushColumnOrderIds = async (column) => {
   }
 };
 
+//Lay 1 phan tu columnIds ra khoi mang
+const pullColumnOrderIds = async (column) => {
+  try {
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        { _id: new ObjectId(column.boardId) },
+        { $pull: { columnOrderIds: new ObjectId(column._id) } },
+        { returnDocument: "after" }
+      );
+
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const update = async (boardId, updateData) => {
   try {
     //Lọc những cái field mà cta không cho phép cập nhật linh tinh
@@ -155,5 +168,6 @@ export const boardModel = {
   findOneById,
   getDetails,
   pushColumnOrderIds,
+  pullColumnOrderIds,
   update,
 };

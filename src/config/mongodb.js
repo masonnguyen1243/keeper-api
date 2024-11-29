@@ -1,7 +1,3 @@
-//mongodb+srv://masonnguyen:<db_password>@cluster0.jlzyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-//3BtTLpNwPJMVgv7K
-//dbxC1pZz1txTvvSU
-
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { env } from "~/config/environment";
 
