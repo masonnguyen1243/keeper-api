@@ -4,13 +4,6 @@ import { boardService } from "~/services/boardService";
 //Điều hướng các loại dữ liệu phía BE
 const createNew = async (req, res, next) => {
   try {
-    // console.log(req.body);
-    // console.log(req.query);
-    // console.log(req.params);
-    // console.log(req.files);
-    // console.log(req.cookies);
-    // console.log(req.jwtDecoded);
-
     //Điều hướng DL sang tầng Service
     const createdBoard = await boardService.createNew(req.body);
 
@@ -23,7 +16,6 @@ const createNew = async (req, res, next) => {
 
 const getDetails = async (req, res, next) => {
   try {
-    // console.log(req.params);
     const boardId = req.params.id;
     const board = await boardService.getDetails(boardId);
 

@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { boardValidation } from "~/validations/boardValidation";
 import { boardController } from "~/controllers/boardController";
 
+//API endpoint
 const Router = express.Router();
 
 Router.route("/")

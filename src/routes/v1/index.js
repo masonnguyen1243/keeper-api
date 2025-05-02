@@ -9,17 +9,17 @@ const Router = express.Router();
 //Check APIs_V1 status
 Router.get("/status", (req, res) => {
   res.status(StatusCodes.OK).json({
-    message: "API V1 are ready to use",
+    message: "APIs V1 are ready to use",
   });
 });
 
-//Boards API
+//Boards APIs
 Router.use("/boards", boardRoute);
 
-//Columns API
+//Columns APIs
 Router.use("/columns", columnRoute);
 
-//Cards API
+//Cards APIs
 Router.use("/cards", cardRoute);
 
 export const APIs_V1 = Router;

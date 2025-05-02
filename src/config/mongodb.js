@@ -1,3 +1,4 @@
+//Kết nối MongoDB vào dự án
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { env } from "~/config/environment";
 
@@ -7,7 +8,6 @@ let keeperDatabaseInstance = null;
 //Khởi tại một đối tượng mongoClientInstance để connect tới MongoDB
 const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
   //Chỉ định 1 cái Stable API Version của MongoDB
-  //https://www.mongodb.com/docs/drivers/node/current/fundamentals/stable-api/
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,

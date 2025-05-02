@@ -4,16 +4,32 @@ import ApiError from "~/utils/ApiError";
 import { BOARD_TYPE } from "~/utils/constants";
 import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from "~/utils/validators";
 
+//Validate dữ liệu từ FE đẩy lên
 const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({
     title: Joi.string().required().min(3).max(50).trim().strict().messages({
       "any.required": "Title is required",
       "string.empty": "Title is not allowed to be empty",
       "string.min": "Title length must be at least 3 characters long",
-      "string.max": "length must be less than or equal to 5 characters long",
+      "string.max":
+        "Title length must be less than or equal to 5 characters long",
       "string.trim": "Title must not have leading or trailing whitespace",
     }),
-    description: Joi.string().required().min(3).max(256).trim().strict(),
+    description: Joi.string()
+      .required()
+      .min(3)
+      .max(255)
+      .trim()
+      .strict()
+      .messages({
+        "any.required": "Description is required",
+        "string.empty": "Description is not allowed to be empty",
+        "string.min": "Description length must be at least 3 characters long",
+        "string.max":
+          "Description length must be less than or equal to 5 characters long",
+        "string.trim":
+          "Description must not have leading or trailing whitespace",
+      }),
     type: Joi.string().valid(BOARD_TYPE.PUBLIC, BOARD_TYPE.PRIVATE).required(),
   });
 

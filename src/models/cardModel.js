@@ -36,7 +36,7 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data);
 
-    //Biến đổi 1 số dữ liệu liên quan tới ObjectId
+    //Biến đổi 1 số dữ liệu liên quan tới ObjectId trước khi đẩy vào DB
     const newCardToAdd = {
       ...validData,
       boardId: new ObjectId(validData.boardId),

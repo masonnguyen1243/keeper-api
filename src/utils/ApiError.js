@@ -10,10 +10,10 @@ class ApiError extends Error {
     // Tên của cái custom Error này, nếu không set thì mặc định nó sẽ kế thừa là "Error"
     this.name = "ApiError";
 
-    // Gán thêm http status code của chúng ta ở đây
+    // Gán thêm http status code ở đây
     this.statusCode = statusCode;
 
-    // Ghi lại Stack Trace (dấu vết ngăn xếp) để thuận tiện cho việc debug
+    // Ghi lại Stack Trace để thuận tiện cho việc debug
     Error.captureStackTrace(this, this.constructor);
   }
 }

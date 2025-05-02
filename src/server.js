@@ -1,18 +1,18 @@
 import express from "express";
 import cors from "cors";
+import { corsOptions } from "./config/cors";
 import exitHook from "async-exit-hook";
 import { CONNECT_DB, CLOSE_DB } from "~/config/mongodb";
 import { env } from "~/config/environment";
 import { APIs_V1 } from "~/routes/v1";
 import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
-import { corsOptions } from "./config/cors";
 
 const START_SERVER = () => {
   const app = express();
 
   app.use(cors(corsOptions));
 
-  //Bật req.body json data
+  //Enable req.body json data
   app.use(express.json());
 
   //Sử dụng APIs_V1
