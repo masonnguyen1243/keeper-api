@@ -5,7 +5,7 @@ import bcryptjs from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 import { pickUser } from "~/utils/formatters";
 import { WEBSITE_DOMAIN } from "~/utils/constants";
-import { BrevoProvider } from "~/providers/brevoProvider";
+import { BrevoProvider } from "~/providers/BrevoProvider";
 import { env } from "~/config/environment";
 import { JwtProvider } from "~/providers/JwtProvider";
 

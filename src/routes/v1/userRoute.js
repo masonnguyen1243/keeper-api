@@ -9,7 +9,7 @@ Router.route("/register").post(
   userController.createNew
 );
 
-Router.route("/verify").put(
+Router.route("/verify").post(
   userValidation.verifyAccount,
   userController.verifyAccount
 );
