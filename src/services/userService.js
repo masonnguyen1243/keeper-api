@@ -119,6 +119,7 @@ const login = async (reqBody) => {
       userInfo,
       env.REFRESH_TOKEN_SECRET_SIGNATURE,
       env.REFRESH_TOKEN_LIFE
+      // 15 //15s
     );
 
     //Trả về thông tin của user kèm theo 2 cái token vừa tạo
@@ -153,8 +154,8 @@ const refreshToken = async (clientRefreshToken) => {
     const accessToken = await JwtProvider.generateToken(
       userInfo,
       env.ACCESS_TOKEN_SECRET_SIGNATURE,
-      // 5 // 5 giây để test accessToken hết hạn
       env.ACCESS_TOKEN_LIFE // 1 tiếng
+      // 5 // 5 giây để test accessToken hết hạn
     );
 
     return { accessToken };
