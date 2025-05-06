@@ -141,8 +141,6 @@ const refreshToken = async (clientRefreshToken) => {
       env.REFRESH_TOKEN_SECRET_SIGNATURE
     );
 
-    console.log("refreshTokenDecoded", refreshTokenDecoded);
-
     // Đoạn này vì chúng ta chỉ lưu những thông tin unique và cố định của user trong token rồi, vì vậy có thể
     // lấy luôn từ decoded ra, tiết kiệm query vào DB để lấy data mới.
     const userInfo = {
@@ -164,9 +162,50 @@ const refreshToken = async (clientRefreshToken) => {
   }
 };
 
+const update = async (userId, reqBody) => {
+  try {
+    // Query User và kiểm tra cho chắc chắn
+    const existUser = await userModel.findOneById(userId);
+    if (!existUser)
+      throw new ApiError(StatusCodes.NOT_FOUND, "Account not found!");
+    if (!existUser.isActive)
+      throw new ApiError(
+        StatusCodes.NOT_ACCEPTABLE,
+        "Your account is not active!"
+      );
+
+    //Khởi tạo kết quả updated user ban đầu là empty
+    let updatedUser = {};
+
+    //Trường hợp: Change password
+    if (reqBody.current_password && reqBody.new_password) {
+      //Kiểm tra xem current_password có đúng hay không
+      if (!bcryptjs.compareSync(reqBody.current_password, existUser.password)) {
+        throw new ApiError(
+          StatusCodes.NOT_ACCEPTABLE,
+          "Your current password is incorrect!"
+        );
+      }
+
+      //Nếu như current_password đúng thì chúng ta sẽ update mật khẩu mới vào DB
+      updatedUser = await userModel.update(existUser._id, {
+        password: bcryptjs.hashSync(reqBody.new_password, 8), //hashedPassword
+      });
+    } else {
+      //Tường hợp update các thông tin chung (vd: displayName)
+      updatedUser = await userModel.update(existUser._id, reqBody);
+    }
+
+    return pickUser(updatedUser);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const userService = {
   createNew,
   verifyAccount,
   login,
   refreshToken,
+  update,
 };
