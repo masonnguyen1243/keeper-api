@@ -8,7 +8,7 @@ import { WEBSITE_DOMAIN } from "~/utils/constants";
 import { BrevoProvider } from "~/providers/BrevoProvider";
 import { env } from "~/config/environment";
 import { JwtProvider } from "~/providers/JwtProvider";
-import { CloudinaryProvider } from "~/providers/cloudinaryProvider";
+import { CloudinaryProvider } from "~/providers/CloudinaryProvider";
 
 const createNew = async (reqBody) => {
   try {
