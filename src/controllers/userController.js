@@ -32,12 +32,14 @@ const login = async (req, res, next) => {
      * thời gian sống của cookie khác với cái thời gian sống của token nhé. Đừng bị nhầm lẫn :D
      */
     res.cookie("accessToken", result.accessToken, {
+      httpOnly: true,
       secure: true,
       sameSite: "none",
       maxAge: ms("14 days"),
     });
 
     res.cookie("refreshToken", result.refreshToken, {
+      httpOnly: true,
       secure: true,
       sameSite: "none",
       maxAge: ms("14 days"),
