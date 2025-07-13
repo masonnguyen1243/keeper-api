@@ -33,11 +33,19 @@ const START_SERVER = () => {
   //Middlewares xử lý lỗi tập trung
   app.use(errorHandlingMiddleware);
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    console.log(
-      `Hi ${env.AUTHOR}, Back-end Server is running successfully at http://${env.APP_HOST}:${env.APP_PORT}/`
-    );
-  });
+  if (env.BUILD_MODE === "production") {
+    app.listen(process.env.PORT, () => {
+      console.log(
+        `PRODUCT: Hi ${env.AUTHOR}, Back-end Server is running successfully at ${process.env.PORT}/`
+      );
+    });
+  } else {
+    app.listen(env.APP_PORT, env.APP_HOST, () => {
+      console.log(
+        `LOCAL:Hi ${env.AUTHOR}, Back-end Server is running successfully at http://${env.APP_HOST}:${env.APP_PORT}/`
+      );
+    });
+  }
 
   //Thực hiện các thao tác cleanup trước khi dừng server lại
   exitHook(() => {
